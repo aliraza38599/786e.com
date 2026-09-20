@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mauja Demo Earning</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#0f172a;
+  color:#111827;
+  padding:15px;
+}
+
+.main{
+  max-width:430px;
+  margin:auto;
+}
+
+.demo{
+  background:#facc15;
+  color:#111827;
+  text-align:center;
+  padding:10px;
+  border-radius:12px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+h1{
+  color:white;
+  text-align:center;
+  margin:15px 0;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:15px;
+  box-shadow:0 10px 25px #0005;
+}
+
+.balance{
+  text-align:center;
+  font-size:40px;
+  font-weight:bold;
+  color:#2563eb;
+  margin:15px 0;
+}
+
+.input{
+  width:100%;
+  padding:14px;
+  border:2px solid #e2e8f0;
+  border-radius:12px;
+  margin:7px 0;
+  font-size:16px;
+}
+
+.btn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  margin-top:10px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.blue{
+  background:#2563eb;
+  color:white;
+}
+
+.green{
+  background:#16a34a;
+  color:white;
+}
+
+.gray{
+  background:#94a3b8;
+  color:white;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  margin:9px 0;
+}
+
+.msg{
+  text-align:center;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+.warning{
+  background:#fef3c7;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:19px;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+<div class="demo">
+  ⚠️ DEMO PLATFORM — NO REAL MONEY
+</div>
+
+<h1>💸 Mauja Demo Earning</h1>
+
+<div class="card">
+
+<h3>Demo Account</h3>
+
+<input
+  id="email"
+  class="input"
+  type="email"
+  placeholder="Apni Email / Gmail likho"
+>
+
+<input
+  id="whatsapp"
+  class="input"
+  type="tel"
+  placeholder="WhatsApp Number"
+>
+
+<button class="btn blue" onclick="register()">
+  🎁 100 Demo Rs Bonus Lo
+</button>
+
+<div id="account" style="display:none">
+
+<div class="balance">
+  <span id="balance">100</span> Demo Rs
+</div>
+
+<div class="row">
+  <span>Referrals</span>
+  <b id="refs">0</b>
+</div>
+
+<div class="row">
+  <span>Demo Withdraw Limit</span>
+  <b>100 Demo Rs</b>
+</div>
+
+<button class="btn green" onclick="withdraw()">
+  💰 Demo Withdraw
+</button>
+
+</div>
+
+<p id="message" class="msg"></p>
+
+<div class="warning">
+  <b>Important:</b><br>
+  یہ صرف testing/demo website ہے۔
+  Demo balance کی کوئی حقیقی cash value نہیں ہے۔
+  کوئی Easypaisa, JazzCash یا بینک payment نہیں بھیجی جائے گی۔
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>📋 Demo Rules</h3>
+
+<p style="margin-top:10px;line-height:22px;font-size:14px;">
+1. New demo account کو 100 Demo Rs ملتے ہیں۔<br>
+2. Demo balance صرف testing کے لیے ہے۔<br>
+3. Demo Withdraw صرف ایک simulated request بناتا ہے۔<br>
+4. کوئی حقیقی رقم transfer نہیں ہوتی۔
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+let balance = Number(
+  localStorage.getItem("demo_balance") || "0"
+);
+
+let registered =
+  localStorage.getItem("demo_registered") === "yes";
+
+function update(){
+
+  document.getElementById("balance").innerText = balance;
+
+  if(registered){
+    document.getElementById("account").style.display = "block";
+  }
+}
+
+function register(){
+
+  let email =
+    document.getElementById("email").value.trim();
+
+  let whatsapp =
+    document.getElementById("whatsapp").value.trim();
+
+  if(!email){
+    alert("Please apni email/Gmail likho.");
+    return;
+  }
+
+  if(!whatsapp){
+    alert("Please WhatsApp number likho.");
+    return;
+  }
+
+  if(registered){
+    document.getElementById("message").innerText =
+      "Demo account pehle se registered hai.";
+    return;
+  }
+
+  balance = 100;
+
+  localStorage.setItem(
+    "demo_balance",
+    balance
+  );
+
+  localStorage.setItem(
+    "demo_email",
+    email
+  );
+
+  localStorage.setItem(
+    "demo_whatsapp",
+    whatsapp
+  );
+
+  localStorage.setItem(
+    "demo_registered",
+    "yes"
+  );
+
+  registered = true;
+
+  update();
+
+  document.getElementById("message").innerText =
+    "🎉 Mubarak! 100 Demo Rs bonus mil gaya.";
+}
+
+function withdraw(){
+
+  if(!registered){
+    alert("Pehle demo account register karo.");
+    return;
+  }
+
+  if(balance <= 0){
+    alert("Demo balance available nahi hai.");
+    return;
+  }
+
+  document.getElementById("message").innerText =
+    "✅ Demo withdrawal submitted! " +
+    balance +
+    " Demo Rs — No real payment will be sent.";
+
+}
+
+update();
+
+</script>
+
+</body>
+</html>
